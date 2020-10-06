@@ -1,1 +1,3 @@
+<%= link_to "sort by likes", dogs_path(sort: "likes")%>
 <%= render partial: 'thumbnail', collection: @dogs, as: :dog %>
+<%= will_paginate @dogs %>

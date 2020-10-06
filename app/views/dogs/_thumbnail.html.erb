@@ -1,6 +1,7 @@
 <a href="<%= url_for(dog) %>">
   <article>
-    <h2 class="dog-name"><%= dog.name %></h2>
+    <h2 class="dog-name"><%= dog.name %> </h2>
+    <%= render partial: 'like', locals: {dog: dog} %>
     <%= image_tag url_for(dog.images.first), class: "dog-photo", alt: "Photo of #{dog.name}" %>
   </article>
 </a>

@@ -10,14 +10,6 @@ describe 'Dog resource', type: :feature do
     expect(Dog.count).to eq(1)
   end
 
-  it 'can edit a dog profile' do
-    dog = create(:dog)
-    visit edit_dog_path(dog)
-    fill_in 'Name', with: 'Speck'
-    click_button 'Update Dog'
-    expect(dog.reload.name).to eq('Speck')
-  end
-
   it 'can delete a dog profile' do
     dog = create(:dog)
     visit dog_path(dog)

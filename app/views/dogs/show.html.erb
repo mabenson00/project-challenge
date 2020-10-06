@@ -1,5 +1,8 @@
 <section>
   <h2><%= @dog.name %></h2>
+  <%= render partial: 'like', locals: {dog: @dog} %>
+  <%= button_to 'Like', dog_likes_path(@dog), method: :post if !@current_user_is_dog_owner %>
+
 
   <% @dog.images.each do |image| %>
     <%= image_tag url_for(image), alt: "Photo of #{@dog.name}" %>
@@ -7,7 +10,7 @@
 
   <p><%= @dog.description %></p>
 
-  <%= link_to "Edit #{@dog.name}'s Profile", edit_dog_path %>
+  <%= link_to "Edit #{@dog.name}'s Profile", edit_dog_path  if @current_user_is_dog_owner %>
   <br>
   <%= link_to "Delete #{@dog.name}'s Profile", dog_path, method: :delete, data: { confirm: 'Are you sure?' } %>
 </section>

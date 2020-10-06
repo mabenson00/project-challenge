@@ -1,10 +1,17 @@
 class DogsController < ApplicationController
+  require 'will_paginate/array'
+
   before_action :set_dog, only: [:show, :edit, :update, :destroy]
+  before_action :current_user_is_dog_owner?, only: [:show]
 
   # GET /dogs
   # GET /dogs.json
   def index
-    @dogs = Dog.all
+    if params[:sort] == "likes"
+      @dogs = Dog.sort_by_recent_likes.paginate(page: params[:page], per_page: 5)
+    else 
+      @dogs = Dog.paginate(page: params[:page], per_page: 5)
+    end
   end
 
   # GET /dogs/1
@@ -25,10 +32,10 @@ class DogsController < ApplicationController
   # POST /dogs.json
   def create
     @dog = Dog.new(dog_params)
-
+    @dog.owner = current_user
     respond_to do |format|
       if @dog.save
-        @dog.images.attach(params[:dog][:image]) if params[:dog][:image].present?
+        @dog.images.attach(params[:dog][:images]) if params[:dog][:images].present?
 
         format.html { redirect_to @dog, notice: 'Dog was successfully created.' }
         format.json { render :show, status: :created, location: @dog }
@@ -43,8 +50,12 @@ class DogsController < ApplicationController
   # PATCH/PUT /dogs/1.json
   def update
     respond_to do |format|
-      if @dog.update(dog_params)
-        @dog.images.attach(params[:dog][:image]) if params[:dog][:image].present?
+      if !current_user_is_dog_owner?
+        format.html { redirect_to @dog, notice: 'You are not authorized to edit this dog.'}
+        format.json { render json: {"error": "not authorized"}, status: 401 } 
+      elsif @dog.update(dog_params)
+        # there's no way to remove images, but keeping implementation as is.
+        @dog.images.attach(params[:dog][:images]) if params[:dog][:images].present?
 
         format.html { redirect_to @dog, notice: 'Dog was successfully updated.' }
         format.json { render :show, status: :ok, location: @dog }
@@ -75,4 +86,10 @@ class DogsController < ApplicationController
     def dog_params
       params.require(:dog).permit(:name, :description, :images)
     end
+
+
+    def current_user_is_dog_owner?
+      @current_user_is_dog_owner = current_user && current_user == @dog.owner
+      return @current_user_is_dog_owner
+    end 
 end
