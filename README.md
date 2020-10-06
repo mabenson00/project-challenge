@@ -1,19 +1,18 @@
-# Welcome
+# URL Backend
 
-This repository contains starter code for a technical assessment. The challenges can be done at home before coming in to discuss with the Bark team or can be done as a pairing exercise at the Bark office. Either way, we don't expect you to put more than an hour or two into coding. We recommend forking the repository and getting it running before starting the challenge if you choose the pairing approach.
+## Set Up
+`bundle install` 
+`rake db:reset`
+go to localhost:3000
 
-# Set up
+## Thought Process
+Based on the limited amount of time, I did things in the simplest way I could (while trying to stick with the style that was already there). So, because you had JSON responses, I put JSON responses (etc).
 
-Fork this repository and clone locally
+I used [will-paginate](https://github.com/mislav/will_paginate) for the pagination.
 
-You'll need [ruby 2.2.4](https://rvm.io/rvm/install) and [rails 5](http://guides.rubyonrails.org/getting_started.html#installing-rails) installed.
+Some of the things I would do with more time:
 
-Run `bundle install`
-
-Initialize the data with `rake db:reset`
-
-Run the specs with `rspec`
-
-Run the server with `rails s`
-
-View the site at http://localhost:3000
+ - Tests
+ - Clean up sort, put in real scope.
+ - Unliking.
+ - Real permissions.
