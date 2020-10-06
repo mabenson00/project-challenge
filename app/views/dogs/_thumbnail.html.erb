@@ -1,7 +1,13 @@
+<%# "#{partial_name}_counter" is a built in method for to get index for partials in a collection /÷  %>
+<% index = dog_counter + 1 %>
 <a href="<%= url_for(dog) %>">
   <article>
     <h2 class="dog-name"><%= dog.name %> </h2>
     <%= render partial: 'like', locals: {dog: dog} %>
     <%= image_tag url_for(dog.images.first), class: "dog-photo", alt: "Photo of #{dog.name}" %>
   </article>
+
+  <% if index%2 == 0 %>
+    <%= image_tag(asset_path("ad.jpg"))%>
+  <% end %>
 </a>
