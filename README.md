@@ -1,4 +1,4 @@
-# URL Backend
+# Bark Challenge
 
 ## Set Up
 `bundle install` 
